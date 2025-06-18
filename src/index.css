@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 
+  "nav"
+  "main"
+  "footer"
+  ;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
+  background: linear-gradient(
+    45deg, 
+    rgba(142, 197, 252, 1.000) 0.000%,
+    rgba(141, 211, 255, 1.000) 25.000%, 
+    rgba(161, 216, 255, 1.000) 50.000%, 
+    rgba(193, 210, 255, 1.000) 75.000%, 
+    rgba(224, 195, 255, 1.000) 100.000%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;*/
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
