@@ -31,11 +31,12 @@ function BookForm() {
   /* arrow function */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(authors);
     console.log('Selected Genres:', listGenre.filter(g => g.clicked).map(g => g.genre));
+    console.log('Author(s):', authors);
     console.log('Selected Language:', language);
     console.log('Year From:', fromYear);
     console.log('Year To:', toYear);
+    console.log('Book length:',bookLength);
   };
   /* normal function */
   function handleGenreClick(index) {
