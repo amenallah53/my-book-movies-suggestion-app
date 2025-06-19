@@ -29,8 +29,25 @@
     text-align: center;
 }
 
+.genre-clicked{
+    border: white;
+    border-radius: 20px;
+    background-color: #03364f;
+    padding: 10px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transition: color ease 0.3s;
+    width: 150px;
+    text-align: center;
+}
+
 .genre:hover{
     background-color: #03364f;
+    cursor: pointer;
+}
+
+.genre-clicked:hover{
     cursor: pointer;
 }
 

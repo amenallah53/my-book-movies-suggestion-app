@@ -5,13 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
-  const [language, setLanguage] = React.useState('');
-
-  const handleChange = (event) => {
-    setLanguage(event.target.value);
-  };
-
+export default function BasicSelect({value,onChange}) {
   return (
     <Box sx={{ width: 300 , backgroundColor : 'white'}}>
       <FormControl fullWidth>
@@ -19,9 +13,9 @@ export default function BasicSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={language}
+          value={value} //here are the calls
           label="Select language"
-          onChange={handleChange}
+          onChange={(e) => onChange(e.target.value)} //here are the calls
         >
           <MenuItem value={"ar"}>Arabic</MenuItem>
           <MenuItem value={"en"}>English</MenuItem>
