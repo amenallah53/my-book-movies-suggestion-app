@@ -1,14 +1,16 @@
 import '../../assets/styles/Form.css';
 import { /*use,*/ useState } from 'react';
 import BasicSelect from './DropDownButton';
-import Button from '../button';
-import TextField from '@mui/material/TextField';
-import CustomNumberInput from './CustomNumberInput';
+//import Button from '../button';
+import Textarea from '@mui/joy/Textarea';
+import Input from '@mui/joy/Input';
+import Button from '@mui/joy/Button';
+//import CustomNumberInput from './CustomNumberInput';
 import RowRadioButtonsGroup from './RowRadioButtonsGroup';
 import FormLabel from '@mui/material/FormLabel';
 import { jsonrepair } from "jsonrepair";
 import { useNavigate } from 'react-router-dom';
-
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 
 function BookForm() {
@@ -31,6 +33,7 @@ function BookForm() {
   const [fromYear,setFromYear] = useState('');
   const [toYear,setToYear] = useState('');
   const [bookLength,setBookLength] = useState('');
+  const [extraDescription,setExtraDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -52,11 +55,13 @@ function BookForm() {
     }
     Preferences:
     genre: ${selectedGenres}
-    language: ${language}
-    authors: ${authors}
-    from: ${fromYear} to: ${toYear}
+    language of the book: ${language}
+    author(s): ${authors}
+    years of publish from: ${fromYear} to: ${toYear}
     length: ${bookLength}
-    Respond ONLY with JSON array. No markdown, no explanation, no extra text.`;
+    extra details : ${extraDescription}
+    don't mind empty preferences and Respond ONLY with JSON array. 
+    No markdown, no explanation, no extra text.`;
 
     try {
       const response = await fetch("http://localhost:11434/api/generate", {
@@ -126,33 +131,40 @@ function BookForm() {
       <BasicSelect value={language} onChange={setLanguage}/>
 
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Author(s)</FormLabel>
-      <TextField
-        id="outlined-basic"
-        label="Enter preferred author"
-        variant="outlined"
+      <Input 
+        size="lg"
+        placeholder="Enter preferred author..." 
         onChange={(e) => setAuthors(e.target.value)}
-        sx={{
-          width: '300px',
-          backgroundColor: 'white',
-          borderRadius: '6px',
-          transition: 'all 0.3s ease',
-          '&:focus-within .MuiOutlinedInput-notchedOutline': {
-            border: '2px solid #8ec5fc',
-          },
-        }}
+        sx={{width: '300px',}}
       />
 
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Publication Year Range</FormLabel>
       <div id='inputNumbersDiv'>
-        <CustomNumberInput text="From" value={fromYear} onChange={setFromYear}/>
-        <CustomNumberInput text="To"  value={toYear} onChange={setToYear}/>
+        <Input 
+          type="number"
+          placeholder="From year" 
+          size="lg"
+          onChange={(e) => setFromYear(e.target.value)}
+          sx={{width: '300px',}}
+        />
+        <Input 
+          type="number"
+          size="lg"
+          placeholder="To year" 
+          onChange={(e) => setToYear(e.target.value)}
+          sx={{width: '300px',}}
+        />
       </div>
 
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Book length</FormLabel>
       <RowRadioButtonsGroup value={bookLength} onChange={setBookLength}/>
-      {isLoading && <p style={{ color: 'white', fontWeight: 'bold', fontSize:'20px' }}>Fetching recommendation...</p>}
+      <Textarea size="lg" name="Outlined" onChange={(e) => setExtraDescription(e.target.value)} placeholder="Add other more description for more specification..." variant="outlined" minRows = {3} />
+      {/*{isLoading && <p style={{ color: 'white', fontWeight: 'bold', fontSize:'20px' }}>Fetching recommendation...</p>}
       <Button  text={"Get Recommendations"} bgColor={"rgba(126, 0, 115, 0.48)"} 
-      borderColor={"rgba(255, 255, 255, 0.2)"} iconColor={"rgb(210, 0, 255)"}/>
+      borderColor={"rgba(255, 255, 255, 0.2)"} iconColor={"rgb(210, 0, 255)"}/>*/}
+      <Button type="submit" sx={{width:"300px"}} size="lg" /*disabled={isLoading}*/ loading={isLoading} endDecorator={<KeyboardArrowRight />} >
+        Get Recommendations
+      </Button>
       
     </form>
   );
