@@ -11,9 +11,9 @@ function NavBar() {
             <div className='logo'><img src={logo} alt="logo"></img></div>
             <ul className='nav-links'>
                 <li><Link to="/" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faHome} /> home</Link></li>
-                <li><Link to="/books" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faBook} /> books</Link></li>
-                <li><Link to="/books" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faFilm} /> movies</Link></li>
-                <li><Link to="/books" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faTv} /> TV series</Link></li>
+                <li><Link to="" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faBook} /> books</Link></li>
+                <li><Link to="" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faFilm} /> movies</Link></li>
+                <li><Link to="" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faTv} /> TV series</Link></li>
             </ul>
         </nav>
     );

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-function Button({ text, bgColor, borderColor, iconColor }) {
+function Button({ text, bgColor, borderColor, iconColor}) {
   return (
     <StyledWrapper bgColor={bgColor} borderColor={borderColor} iconColor={iconColor}>
-      <button className="cssbuttons-io-button">
+      <button className="cssbuttons-io-button" >
         {text}
         <div className="icon">
           <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

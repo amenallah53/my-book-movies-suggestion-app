@@ -1,4 +1,4 @@
-import '../../components/form/Form.css';
+import '../../assets/styles/Form.css';
 import { /*use,*/ useState } from 'react';
 import BasicSelect from './DropDownButton';
 import Button from '../button';
@@ -7,11 +7,13 @@ import CustomNumberInput from './CustomNumberInput';
 import RowRadioButtonsGroup from './RowRadioButtonsGroup';
 import FormLabel from '@mui/material/FormLabel';
 import { jsonrepair } from "jsonrepair";
-//import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function BookForm() {
   //state variables
+  const navigate = useNavigate();
   const [listGenre, setListGenre] = useState([
     { genre: 'Fantasy', clicked: false },
     { genre: 'Thriller', clicked: false },
@@ -29,54 +31,74 @@ function BookForm() {
   const [fromYear,setFromYear] = useState('');
   const [toYear,setToYear] = useState('');
   const [bookLength,setBookLength] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
 
   /* arrow function */
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setIsLoading(true);
+    console.log("Form submitted.");
 
-  const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
+    const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
 
-  const prompt = `Give me only one book recommendations as a valid JSON array with these fields:
-"title", "author", "description", "year", "number_of_volumes", "mood", "poster_url"
-Preferences:
-genre: ${selectedGenres}
-language: ${language}
-authors: ${authors}
-from: ${fromYear} to: ${toYear}
-length: ${bookLength}
-Only output valid JSON. No text before or after.
-`;
+    const prompt = `Give me a book recommendation as valid strict JSON object, exactly like this:
+    {
+      "title": "",
+      "author": "",
+      "description": "",
+      "year": "",
+      "mood": "",
+    }
+    Preferences:
+    genre: ${selectedGenres}
+    language: ${language}
+    authors: ${authors}
+    from: ${fromYear} to: ${toYear}
+    length: ${bookLength}
+    Respond ONLY with JSON array. No markdown, no explanation, no extra text.`;
 
-  try {
-    const response = await fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "phi3",
-        prompt: prompt,
-        stream: false
-      })
-    });
+    try {
+      const response = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "model": "phi3",
+          "prompt": prompt,
+          "stream": false,
+          "options": {
+            "temperature": 0.2,
+            "stop": ["]"]
+          }
+        })
+      });
 
     const data = await response.json();
-    const responseText = data.response;
+    let responseText = data.response.trim();
 
-    const jsonStart = responseText.indexOf("[");
-    const jsonEnd = responseText.lastIndexOf("]") + 1;
-    const jsonString = responseText.substring(jsonStart, jsonEnd);
+    // Quick fallback fix if model forgot closing bracket
+    if (!responseText.endsWith("]")) {
+      responseText += "]";
+    }
 
-    const fixedJsonString = jsonrepair(jsonString);
+    //console.log("RAW AI Response:", responseText);
+
+    const fixedJsonString = jsonrepair(responseText);
     const recommendations = JSON.parse(fixedJsonString);
 
     console.log(recommendations);
-    // display or store recommendations as you wish
 
-  } catch (error) {
-    //console.log("Raw extracted JSON:", jsonString);
-    console.error("Failed to fetch or parse AI response:", error);
-  }
+    // ✅ navigate to /results with recommendations
+    navigate('/results', { state: { recommendations } });
+
+    } catch (error) {
+      //console.log("Raw extracted JSON:", jsonString);
+      console.error("Failed to fetch or parse AI response:", error);
+    } finally{
+      setIsLoading(false);
+    }
 };
 
 
@@ -128,8 +150,10 @@ Only output valid JSON. No text before or after.
 
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Book length</FormLabel>
       <RowRadioButtonsGroup value={bookLength} onChange={setBookLength}/>
-      <Button text={"Get Recommendations"} bgColor={"rgba(126, 0, 115, 0.48)"} 
+      {isLoading && <p style={{ color: 'white', fontWeight: 'bold', fontSize:'20px' }}>Fetching recommendation...</p>}
+      <Button  text={"Get Recommendations"} bgColor={"rgba(126, 0, 115, 0.48)"} 
       borderColor={"rgba(255, 255, 255, 0.2)"} iconColor={"rgb(210, 0, 255)"}/>
+      
     </form>
   );
 }
