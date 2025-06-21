@@ -1,11 +1,13 @@
 import '../../components/form/Form.css';
-import { use, useState } from 'react';
+import { /*use,*/ useState } from 'react';
 import BasicSelect from './DropDownButton';
 import Button from '../button';
 import TextField from '@mui/material/TextField';
 import CustomNumberInput from './CustomNumberInput';
 import RowRadioButtonsGroup from './RowRadioButtonsGroup';
 import FormLabel from '@mui/material/FormLabel';
+import { jsonrepair } from "jsonrepair";
+//import { Link } from 'react-router-dom';
 
 
 function BookForm() {
@@ -29,15 +31,57 @@ function BookForm() {
   const [bookLength,setBookLength] = useState('');
 
   /* arrow function */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Selected Genres:', listGenre.filter(g => g.clicked).map(g => g.genre));
-    console.log('Author(s):', authors);
-    console.log('Selected Language:', language);
-    console.log('Year From:', fromYear);
-    console.log('Year To:', toYear);
-    console.log('Book length:',bookLength);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
+
+  const prompt = `Give me only one book recommendations as a valid JSON array with these fields:
+"title", "author", "description", "year", "number_of_volumes", "mood", "poster_url"
+Preferences:
+genre: ${selectedGenres}
+language: ${language}
+authors: ${authors}
+from: ${fromYear} to: ${toYear}
+length: ${bookLength}
+Only output valid JSON. No text before or after.
+`;
+
+  try {
+    const response = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "phi3",
+        prompt: prompt,
+        stream: false
+      })
+    });
+
+    const data = await response.json();
+    const responseText = data.response;
+
+    const jsonStart = responseText.indexOf("[");
+    const jsonEnd = responseText.lastIndexOf("]") + 1;
+    const jsonString = responseText.substring(jsonStart, jsonEnd);
+
+    const fixedJsonString = jsonrepair(jsonString);
+    const recommendations = JSON.parse(fixedJsonString);
+
+    console.log(recommendations);
+    // display or store recommendations as you wish
+
+  } catch (error) {
+    //console.log("Raw extracted JSON:", jsonString);
+    console.error("Failed to fetch or parse AI response:", error);
+  }
+};
+
+
+
+
   /* normal function */
   function handleGenreClick(index) {
     var updatedList = [...listGenre]; //deep copy
@@ -70,13 +114,11 @@ function BookForm() {
           backgroundColor: 'white',
           borderRadius: '6px',
           transition: 'all 0.3s ease',
-          // Hover state
-          '&:focused': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: '2px solid ${blue[400]}',
-            }
+          '&:focus-within .MuiOutlinedInput-notchedOutline': {
+            border: '2px solid #8ec5fc',
           },
-        }}/>
+        }}
+      />
 
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Publication Year Range</FormLabel>
       <div id='inputNumbersDiv'>
