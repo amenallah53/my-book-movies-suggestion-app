@@ -1,0 +1,57 @@
+#mainSection{
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+
+}
+
+#mainSection h1 {
+    color: white;
+    font-size: 5em;
+    letter-spacing: 5px;
+}
+
+#infoDiv{
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.5);
+    gap: 10px;
+}
+
+.first-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.first-div img{
+    transition: all 0.2s ease-in;
+}
+
+.first-div img:hover{
+    cursor: pointer;
+    transform: scale(1.025);
+}
+
+.first-div .book-attributs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.attribut{
+    display: flex;
+    flex-direction: column;
+}
+
+.second-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.book-poster{
+    width: 250px;
+    height: auto;
+    border-radius: 10px;
+}

@@ -1,15 +1,12 @@
 import '../../assets/styles/Form.css';
 import { /*use,*/ useState } from 'react';
 import BasicSelect from './DropDownButton';
-//import Button from '../button';
 import Textarea from '@mui/joy/Textarea';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
-//import CustomNumberInput from './CustomNumberInput';
 import RowRadioButtonsGroup from './RowRadioButtonsGroup';
 import FormLabel from '@mui/material/FormLabel';
-import { jsonrepair } from "jsonrepair";
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 
@@ -36,8 +33,38 @@ function BookForm() {
   const [extraDescription,setExtraDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  //this one return the image url in form of `https://covers.openlibrary.org/b/id/${image_id}-L.jpg`
+  //in this function we get the image_id from the backend 
+  const getImageUrls = async (recommendation) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/getImage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: recommendation.title,
+          author: recommendation.author,
+        }),
+      });
 
-  /* arrow function */
+      // Better error handling
+      if (!response.ok) {
+        console.warn(`Image not found for: ${recommendation.title}`);
+        return `https://covers.openlibrary.org/b/id/${11481354}-L.jpg`; /*for test */
+      }
+
+      const data = await response.json();
+      return data.image_id 
+        ? `https://covers.openlibrary.org/b/id/${data.image_id}-L.jpg`
+        : `https://covers.openlibrary.org/b/id/${11481354}-L.jpg`; /*for test */
+
+    } catch (err) {
+      console.error("Error fetching image:", err);
+      return null;
+    }
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -45,69 +72,46 @@ function BookForm() {
 
     const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
 
-    const prompt = `Give me a book recommendation as valid strict JSON object, exactly like this:
-    {
-      "title": "",
-      "author": "",
-      "description": "",
-      "year": "",
-      "mood": "",
-    }
-    Preferences:
-    genre: ${selectedGenres}
-    language of the book: ${language}
-    author(s): ${authors}
-    years of publish from: ${fromYear} to: ${toYear}
-    length: ${bookLength}
-    extra details : ${extraDescription}
-    don't mind empty preferences and Respond ONLY with JSON array. 
-    No markdown, no explanation, no extra text.`;
-
     try {
-      const response = await fetch("http://localhost:11434/api/generate", {
+      const response = await fetch("http://localhost:5000/api/recommend", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          "model": "phi3",
-          "prompt": prompt,
-          "stream": false,
-          "options": {
-            "temperature": 0.2,
-            "stop": ["]"]
-          }
-        })
+          selectedGenres,
+          language,
+          authors,
+          fromYear,
+          toYear,
+          bookLength,
+          extraDescription,
+        }),
       });
 
-    const data = await response.json();
-    let responseText = data.response.trim();
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
 
-    // Quick fallback fix if model forgot closing bracket
-    if (!responseText.endsWith("]")) {
-      responseText += "]";
-    }
+      const data = await response.json();
+      const recommendations = data.recommendations;
+      
+      const image_urls = await Promise.all(
+        recommendations.map(async (recommendation, index) => {
+          return await getImageUrls(recommendation);
+        })
+      );
 
-    //console.log("RAW AI Response:", responseText);
+      console.log("recommendations ",recommendations);
+      console.log("image_urls ",image_urls);
+      navigate('/results', { state: { recommendations , image_urls } });
 
-    const fixedJsonString = jsonrepair(responseText);
-    const recommendations = JSON.parse(fixedJsonString);
-
-    console.log(recommendations);
-
-    // ✅ navigate to /results with recommendations
-    navigate('/results', { state: { recommendations } });
-
-    } catch (error) {
-      //console.log("Raw extracted JSON:", jsonString);
-      console.error("Failed to fetch or parse AI response:", error);
-    } finally{
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      console.log("raw : ",data);
+      alert("Failed to get recommendations from backend.");
+    } finally {
       setIsLoading(false);
     }
-};
-
-
-
+  };
 
   /* normal function */
   function handleGenreClick(index) {

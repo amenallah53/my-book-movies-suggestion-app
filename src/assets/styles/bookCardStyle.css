@@ -22,7 +22,7 @@
     padding: 25px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     width: 100%;
-    transition: transfrom 1s ease-out;
+    transition: all 0.2s ease-in;
 }
 .result-container:hover{
     cursor: pointer;
@@ -43,13 +43,24 @@
     gap: 25px;
 }
 
-.image-container{
+.image-container {
     width: 120px;
     height: 75px;
-    background:linear-gradient(90deg, red, orange);
-    background-color: red;
+    background: linear-gradient(90deg, red, orange);
     border-radius: 10px;
+    overflow: hidden;
+    position: relative;
 }
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+}
+
+
 
 .info-container{
     display: flex;
