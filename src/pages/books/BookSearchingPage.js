@@ -1,6 +1,6 @@
-import '../App.css';
-import '../assets/styles/bookSearchingPageStyle.css';
-import BookForm from '../components/form/BookForm';
+import '../../App.css';
+import '../../assets/styles/bookSearchingPageStyle.css';
+import BookForm from '../../components/form/BookForm';
 
 function BookSearchingPage() {
   return (

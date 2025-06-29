@@ -1,11 +1,10 @@
-
-import * as React from 'react';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 
-export default function BasicSelect({value,onChange}) {
+export default function BasicSelect({isLoading,value,onChange}) {
   return (
     <Select 
+      disabled = {isLoading}
       size="lg"
       value={value}
       onChange={(e, newValue) => onChange(newValue)}

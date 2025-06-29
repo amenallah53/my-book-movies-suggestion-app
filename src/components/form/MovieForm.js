@@ -4,40 +4,47 @@ import BasicSelect from './DropDownButton';
 import Textarea from '@mui/joy/Textarea';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
-import RowRadioButtonsGroup from './RowRadioButtonsGroup';
+import CheckBoxButtonsGroup from './CheckBoxButtonsGroup';
 import FormLabel from '@mui/material/FormLabel';
 import { data, useNavigate } from 'react-router-dom';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 
-function BookForm() {
+function MovieForm() {
   //state variables
   const navigate = useNavigate();
   const [listGenre, setListGenre] = useState([
-    { genre: 'Fantasy', clicked: false },
-    { genre: 'Thriller', clicked: false },
-    { genre: 'Sci-fi', clicked: false },
-    { genre: 'Romance', clicked: false },
-    { genre: 'Mystery', clicked: false },
-    { genre: 'Historical', clicked: false },
-    { genre: 'Fiction', clicked: false },
-    { genre: 'Horror', clicked: false },
+    { genre: 'Action', clicked: false },
+    { genre: 'Animation', clicked: false },
     { genre: 'Biography', clicked: false },
-    { genre: 'Poetry', clicked: false },
-    { genre: 'Religion', clicked: false },
-    { genre: 'Rhetorical', clicked: false },
-    { genre: 'Fables', clicked: false },
-    { genre: 'Folk tales', clicked: false },
-    { genre: 'Humor', clicked: false },
-    { genre: 'Philosophical fiction', clicked: false },
-    { genre: 'Existential literature', clicked: false },
-    { genre: 'Didactic literature', clicked: false }
+    { genre: 'Comedy', clicked: false },
+    { genre: 'Crime', clicked: false },
+    { genre: 'Crime Drama', clicked: false },
+    { genre: 'Dark Comedy', clicked: false },
+    { genre: 'Documentary', clicked: false },
+    { genre: 'Drama', clicked: false },
+    { genre: 'Fantasy', clicked: false },
+    { genre: 'Horror', clicked: false },
+    { genre: 'Legal Drama', clicked: false },
+    { genre: 'Musical', clicked: false },
+    { genre: 'Mystery', clicked: false },
+    { genre: 'Film Noir', clicked: false },
+    { genre: 'Gangster', clicked: false },
+    { genre: 'Western', clicked: false },
+    { genre: 'Romance', clicked: false },
+    { genre: 'Sports', clicked: false },
+    { genre: 'Thriller', clicked: false },
+    { genre: 'Contemporary Fantasy', clicked: false },
+    { genre: 'Historical Fiction', clicked: false },
+    { genre: 'Psychological Thriller', clicked: false },
+    { genre: 'Science Fiction', clicked: false },
   ]);
+  
   const [language,setLanguage] = useState('');
-  const [authors,setAuthors] = useState('');
+  const [director,setDirector] = useState('');
   const [fromYear,setFromYear] = useState('');
   const [toYear,setToYear] = useState('');
-  const [bookLength,setBookLength] = useState('');
+  const [recognition, setRecognition] = useState([]);
   const [extraDescription,setExtraDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -81,16 +88,16 @@ function BookForm() {
     const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
 
     try {
-      const response = await fetch("http://localhost:5000/api/recommend", {
+      const response = await fetch("http://localhost:5000/api/recommend-movie", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           selectedGenres,
           language,
-          authors,
+          director,
           fromYear,
           toYear,
-          bookLength,
+          recognition,
           extraDescription,
         }),
       });
@@ -102,15 +109,15 @@ function BookForm() {
       const data = await response.json();
       const recommendations = data.recommendations;
       
-      const image_urls = await Promise.all(
+      /*const image_urls = await Promise.all(
         recommendations.map(async (recommendation, index) => {
           return await getImageUrls(recommendation);
         })
-      );
+      );*/
 
       console.log("recommendations ",recommendations);
-      console.log("image_urls ",image_urls);
-      navigate('/books-recommendations/results', { state: { recommendations , image_urls } });
+      //console.log("image_urls ",image_urls);
+      //navigate('/movies-recommendations/results', { state: { recommendations , image_urls } });
 
     } catch (err) {
       console.error("Error submitting form:", err);
@@ -142,16 +149,16 @@ function BookForm() {
       <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Language</FormLabel>
       <BasicSelect isLoading={isLoading} value={language} onChange={setLanguage}/>
 
-      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Author(s)</FormLabel>
+      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Director</FormLabel>
       <Input 
         disabled={isLoading}
         size="lg"
-        placeholder="Enter preferred author..." 
-        onChange={(e) => setAuthors(e.target.value)}
+        placeholder="Enter preferred director..." 
+        onChange={(e) => setDirector(e.target.value)}
         sx={{width: '300px',}}
       />
 
-      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Publication Year Range</FormLabel>
+      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Release Year Range</FormLabel>
       <div id='inputNumbersDiv'>
         <Input 
           disabled={isLoading}
@@ -171,10 +178,10 @@ function BookForm() {
         />
       </div>
 
-      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Book length</FormLabel>
-      <RowRadioButtonsGroup isLoading={isLoading} value={bookLength} onChange={setBookLength}/>
+      <FormLabel className="labelClass" sx={{fontSize: '40px',fontWeight: 500}}>Recognition & Reputation</FormLabel>
+      <CheckBoxButtonsGroup isLoading={isLoading} value={recognition} onChange={setRecognition}/>
       <Textarea disabled={isLoading} size="lg" name="Outlined" onChange={(e) => setExtraDescription(e.target.value)} placeholder="Add other more description for more specification..." variant="outlined" minRows = {3} />
-      <Button type="submit" sx={{width:"300px"}} size="lg" /*disabled={isLoading}*/ loading={isLoading} endDecorator={<KeyboardArrowRight />} >
+      <Button type="submit" sx={{width:"300px"}} size="lg" loading={isLoading} endDecorator={<KeyboardArrowRight />} >
         Get Recommendations
       </Button>
       
@@ -182,4 +189,4 @@ function BookForm() {
   );
 }
 
-export default BookForm;
+export default MovieForm;

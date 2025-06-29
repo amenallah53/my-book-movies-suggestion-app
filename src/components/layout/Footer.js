@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopyright } from '@fortawesome/free-solid-svg-icons'
-import facebook from '../assets/images/facebook.png'
-import instagram from '../assets/images/instagram.png'
-import twitter from '../assets/images/twitter.png'
-import linkedin from '../assets/images/linkedin.png'
-import github from '../assets/images/github.png'
+import facebook from '../../assets/images/facebook.png'
+import instagram from '../../assets/images/instagram.png'
+import twitter from '../../assets/images/twitter.png'
+import linkedin from '../../assets/images/linkedin.png'
+import github from '../../assets/images/github.png'
 
 
 function Footer() {

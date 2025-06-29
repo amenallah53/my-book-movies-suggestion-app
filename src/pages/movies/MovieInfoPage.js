@@ -1,10 +1,10 @@
-import '../App.css';
-import '../assets/styles/bookInfoPageStyle.css';
+import '../../App.css';
+import '../../assets/styles/bookInfoPageStyle.css';
 import FormLabel from '@mui/material/FormLabel';
 import { useLocation } from 'react-router-dom';
 
 
-function BookInfoPage() {
+function MovieInfoPage() {
   const location = useLocation();
   const { book , image } = location.state;
   return (
@@ -50,4 +50,4 @@ function BookInfoPage() {
   );
 }
 
-export default BookInfoPage;
+export default MovieInfoPage;

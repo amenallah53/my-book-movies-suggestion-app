@@ -1,5 +1,5 @@
-import '../App.css'
-import logo from '../logo.svg';
+import '../../App.css'
+import logo from '../../logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBook, faFilm, faTv } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';

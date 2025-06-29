@@ -1,6 +1,6 @@
-import '../App.css';
-import '../assets/styles/bookCardStyle.css';
-import BookCard from '../components/BookCard';
+import '../../App.css';
+import '../../assets/styles/bookCardStyle.css';
+import BookCard from '../../components/BookCard';
 import { useLocation } from 'react-router-dom';
 
 function BookResultsPage() {

@@ -16,7 +16,7 @@ function BookCard({book,image}) {
     // Add fallback image
     const finalImage = image || fallbackImage;
     return (
-        <div className='result-container' onClick={() => navigate('/info', { state: { book , image } })}>
+        <div className='result-container' onClick={() => navigate('/books-recommendations/results/book-info', { state: { book , image } })}>
             <div className='left-container'>
                 <div className='image-container'>
                     <img src={finalImage} alt={book.title}></img>
