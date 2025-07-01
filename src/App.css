@@ -1,3 +1,10 @@
+.nav-div{
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+}
+
 .nav-bar {
   display: flex;
   position: sticky; 
@@ -6,9 +13,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   z-index: 999;
 }
 
@@ -135,15 +139,20 @@
 }
 */
 
+
+.footer-div{
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 .footer{
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   grid-area: "footer";
   padding: 15px 40px;
-  background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .footer .contact{

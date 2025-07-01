@@ -45,7 +45,7 @@ function BookForm() {
   //in this function we get the image_id from the backend 
   const getImageUrls = async (recommendation) => {
     try {
-      const response = await fetch("http://localhost:5000/api/getImage", {
+      const response = await fetch("http://localhost:5000/api/get-image/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,7 +81,7 @@ function BookForm() {
     const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
 
     try {
-      const response = await fetch("http://localhost:5000/api/recommend", {
+      const response = await fetch("http://localhost:5000/api/recommend/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

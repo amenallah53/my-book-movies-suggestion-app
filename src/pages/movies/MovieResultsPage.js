@@ -1,6 +1,6 @@
 import '../../App.css';
 import '../../assets/styles/bookCardStyle.css';
-import BookCard from '../../components/BookCard';
+import MovieCard from '../../components/MovieCard';
 import { useLocation } from 'react-router-dom';
 
 function MovieResultsPage() {
@@ -16,7 +16,7 @@ function MovieResultsPage() {
                 <div className='mainDiv' id='resultDiv'>
                   <div className="list-results">
                     {recommendations.map((element, index) => (                                                  /*() => handleGenreClick(index)*/
-                      <BookCard key={index} book={element} image={image_urls[index]}/>
+                      <MovieCard key={index} movie={element} image={image_urls[index]}/>
                     ))}
                   </div>
                 </div>

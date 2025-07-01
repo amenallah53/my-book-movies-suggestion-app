@@ -1,18 +1,11 @@
 import express from "express";
-import cors from "cors";
-import fetch from "node-fetch";
 import { jsonrepair } from "jsonrepair";
-import dotenv from "dotenv";
 import { Groq } from 'groq-sdk';
 
-dotenv.config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+const router = express.Router()
 
 // POST endpoint to handle recommendations
-app.post("/api/recommend", async (req, res) => {
+router.post("/books", async (req, res) => {
   const {
     selectedGenres,
     language,
@@ -88,7 +81,7 @@ app.post("/api/recommend", async (req, res) => {
 });
 
 // POST endpoint to handle recommendations
-app.post("/api/recommend-movie", async (req, res) => {
+router.post("/movies", async (req, res) => {
   const {
     selectedGenres,
     language,
@@ -164,63 +157,4 @@ app.post("/api/recommend-movie", async (req, res) => {
   }
 });
 
-
-// POST endpoint to get book cover image id
-app.post("/api/getImage", async (req, res) => {
-  const { title, author } = req.body;
-
-  try {
-    // Encode both title and author
-    const query = `title=${encodeURIComponent(title)}`;
-    const response = await fetch(`https://openlibrary.org/search.json?${query}`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data.docs.length === 0) {
-      return res.status(404).json({ error: "No results found." });
-    }
-
-    const image_id = data.docs[0].cover_i;
-    res.json({ image_id });
-
-  } catch (error) {
-    console.error("Error fetching OpenLibrary data:", error);
-    res.status(500).json({ error: "Failed to fetch book cover." });
-  }
-});
-
-// Server listen
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
-});
-
-
-/*
-  try {
-    const response = await fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "phi3",
-        prompt: prompt,
-        stream: false,
-        options: { temperature: 0.3, stop: ["]"] },
-      }),
-    });
-
-    const data = await response.json();
-    let responseText = data.response.trim();
-    const fixedJsonString = jsonrepair(responseText);
-    const recommendations = JSON.parse(fixedJsonString);
-    res.json({ recommendations });
-
-  } catch (error) {
-    console.error("Failed to fetch or parse AI response:", error);
-    res.status(500).json({ error: "Failed to get recommendations." });
-  }
-  */
+export default router;

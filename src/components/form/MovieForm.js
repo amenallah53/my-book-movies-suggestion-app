@@ -52,12 +52,12 @@ function MovieForm() {
   //in this function we get the image_id from the backend 
   const getImageUrls = async (recommendation) => {
     try {
-      const response = await fetch("http://localhost:5000/api/getImage", {
+      const response = await fetch("http://localhost:5000/api/get-image/movies", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: recommendation.title,
-          author: recommendation.author,
+          director: recommendation.director,
         }),
       });
 
@@ -68,9 +68,7 @@ function MovieForm() {
       }
 
       const data = await response.json();
-      return data.image_id 
-        ? `https://covers.openlibrary.org/b/id/${data.image_id}-L.jpg`
-        : null; /*for test */
+      return data.movie_poster_backgound;
 
     } catch (err) {
       console.error("Error fetching image:", err);
@@ -88,7 +86,7 @@ function MovieForm() {
     const selectedGenres = listGenre.filter((g) => g.clicked).map((g) => g.genre).join(", ");
 
     try {
-      const response = await fetch("http://localhost:5000/api/recommend-movie", {
+      const response = await fetch("http://localhost:5000/api/recommend/movies", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -109,15 +107,15 @@ function MovieForm() {
       const data = await response.json();
       const recommendations = data.recommendations;
       
-      /*const image_urls = await Promise.all(
+      const image_urls = await Promise.all(
         recommendations.map(async (recommendation, index) => {
           return await getImageUrls(recommendation);
         })
-      );*/
+      );
 
       console.log("recommendations ",recommendations);
-      //console.log("image_urls ",image_urls);
-      //navigate('/movies-recommendations/results', { state: { recommendations , image_urls } });
+      console.log("image_urls ",image_urls);
+      navigate('/movies-recommendations/results', { state: { recommendations , image_urls } });
 
     } catch (err) {
       console.error("Error submitting form:", err);
