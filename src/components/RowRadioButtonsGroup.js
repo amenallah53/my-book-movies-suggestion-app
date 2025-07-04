@@ -7,6 +7,7 @@ export default function RowRadioButtonsGroup({isLoading, value, onChange }) {
       <Radio
         disabled={isLoading}
         size="lg"
+        sx={{color:'white'}}
         checked={value === 'short'}
         onChange={(e) => onChange(e.target.value)}
         label="short"
@@ -17,6 +18,7 @@ export default function RowRadioButtonsGroup({isLoading, value, onChange }) {
       <Radio
         disabled={isLoading}
         size="lg"
+        sx={{color:'white'}}
         checked={value === 'medium'}
         onChange={(e) => onChange(e.target.value)}
         label="medium"
@@ -27,6 +29,7 @@ export default function RowRadioButtonsGroup({isLoading, value, onChange }) {
       <Radio
         disabled={isLoading}
         size="lg"
+        sx={{color:'white'}}
         checked={value === 'long'}
         onChange={(e) => onChange(e.target.value)}
         label="long"

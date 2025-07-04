@@ -15,6 +15,7 @@ function CheckBoxButtonsGroup({ isLoading, value, onChange }) {
   return (
     <Box sx={{ display: 'flex' , gap: 2 }}>
       <Checkbox
+        sx={{color:'white'}}
         disabled={isLoading}
         size="lg"
         checked={value.includes('Reputation')}
@@ -23,6 +24,7 @@ function CheckBoxButtonsGroup({ isLoading, value, onChange }) {
         slotProps={{ input: { 'aria-label': 'Reputation' } }}
       />
       <Checkbox
+        sx={{color:'white'}}
         disabled={isLoading}
         size="lg"
         checked={value.includes('Award Wins')}
@@ -32,6 +34,7 @@ function CheckBoxButtonsGroup({ isLoading, value, onChange }) {
       />
       <Checkbox
         disabled={isLoading}
+        sx={{color:'white'}}
         size="lg"
         checked={value.includes('Popularity & Audience Ratings')}
         onChange={() => handleCheck('Popularity & Audience Ratings')}

@@ -1,0 +1,20 @@
+export const genres = [
+    { genre: 'Fantasy', clicked: false },
+    { genre: 'Thriller', clicked: false },
+    { genre: 'Sci-fi', clicked: false },
+    { genre: 'Romance', clicked: false },
+    { genre: 'Mystery', clicked: false },
+    { genre: 'Historical', clicked: false },
+    { genre: 'Fiction', clicked: false },
+    { genre: 'Horror', clicked: false },
+    { genre: 'Biography', clicked: false },
+    { genre: 'Poetry', clicked: false },
+    { genre: 'Religion', clicked: false },
+    { genre: 'Rhetorical', clicked: false },
+    { genre: 'Fables', clicked: false },
+    { genre: 'Folk tales', clicked: false },
+    { genre: 'Humor', clicked: false },
+    { genre: 'Philosophical fiction', clicked: false },
+    { genre: 'Existential literature', clicked: false },
+    { genre: 'Didactic literature', clicked: false }
+  ]
