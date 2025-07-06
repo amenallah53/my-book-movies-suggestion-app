@@ -16,10 +16,11 @@
     gap: 25px;
 }
 
-.genre{
+/*genre*/
+.genre-light{
     border: white;
     border-radius: 20px;
-    /*background-color: #045e8b;*/
+    background-color: #045e8b;
     padding: 10px 20px;
     color: white;
     font-size: 20px;
@@ -29,10 +30,10 @@
     text-align: center;
 }
 
-.genre-clicked{
+.genre-light-clicked{
     border: white;
     border-radius: 20px;
-    /*background-color: #03364f;*/
+    background-color: #03364f;
     padding: 10px 20px;
     color: white;
     font-size: 20px;
@@ -42,12 +43,48 @@
     text-align: center;
 }
 
-.genre:hover{
+.genre-light:hover{
     background-color:  #03364f;
     cursor: pointer;
 }
 
-.genre-clicked:hover{
+.genre-light-clicked:hover{
+    cursor: pointer;
+}
+
+
+.genre-dark{
+    border: white;
+    border-radius: 20px;
+    background-color: #bb6cf1;
+    padding: 10px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transition: color ease 0.3s;
+    width: 172px;
+    text-align: center;
+}
+
+.genre-dark-clicked{
+    border: white;
+    border-radius: 20px;
+    background-color: #692e9b;
+    padding: 10px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transition: color ease 0.3s;
+    width: 172px;
+    text-align: center;
+}
+
+.genre-dark:hover{
+    background-color:  #692e9b;
+    cursor: pointer;
+}
+
+.genre-dark-clicked:hover{
     cursor: pointer;
 }
 

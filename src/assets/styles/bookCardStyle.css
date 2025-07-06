@@ -22,11 +22,6 @@
     padding: 25px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     width: 100%;
-    transition: all 0.2s ease-in;
-}
-.result-container:hover{
-    cursor: pointer;
-    transform: scale(1.05);
 }
 
 .left-container{
@@ -34,6 +29,11 @@
     flex-direction: row;
     align-items: space-between;
     gap: 25px;
+    transition: all 0.2s ease-in;
+}
+
+.left-container:hover{
+    cursor: pointer;
 }
 
 .right-container{

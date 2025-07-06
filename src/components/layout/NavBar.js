@@ -28,12 +28,12 @@ function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="" style={{ textDecoration: "none" }}>
+            <Link to="/books-history" style={{ textDecoration: "none" }}>
               <FontAwesomeIcon icon={faBook} /> books
             </Link>
           </li>
           <li>
-            <Link to="" style={{ textDecoration: "none" }}>
+            <Link to="/movies-history" style={{ textDecoration: "none" }}>
               <FontAwesomeIcon icon={faFilm} /> movies
             </Link>
           </li>
@@ -43,11 +43,14 @@ function NavBar() {
             </Link>
           </li>
           <li>
-            <FontAwesomeIcon
-              id="sun-moon"
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              icon={theme === "light" ? faMoon : faSun}
-            />
+            <div id="sun-moon-before">
+              <FontAwesomeIcon
+                id="sun-moon"
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                icon={theme === "light" ? faMoon : faSun}
+              />
+            </div>
+            
           </li>
         </ul>
       </nav>

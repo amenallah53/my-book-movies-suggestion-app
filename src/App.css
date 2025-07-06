@@ -47,6 +47,18 @@
   transition: color 0.3s;
 }
 
+#sun-moon-before{
+  width: 50px;
+  height: 50px;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#sun-moon-before:hover{
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 #sun-moon {
   color: white;
   font-size: 20px;
@@ -56,8 +68,6 @@
 #sun-moon:hover {
   transform: rotate(20deg);
   cursor: pointer;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 

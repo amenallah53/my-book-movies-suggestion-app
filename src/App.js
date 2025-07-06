@@ -6,9 +6,11 @@ import HomePage from './pages/HomePage'
 import BookSearchingPage from './pages/books/BookSearchingPage'
 import BookResultsPage from './pages/books/BookResultsPage';
 import BookInfoPage from './pages/books/BookInfoPage';
+import BookHistoryPage from './pages/books/BookHistoryPage';
 import MovieSearchingPage from './pages/movies/MovieSearchingPage'
 import MovieResultsPage from './pages/movies/MovieResultsPage';
 import MovieInfoPage from './pages/movies/MovieInfoPage';
+import MovieHistoryPage from './pages/movies/MovieHistoryPage';
 import NavBar from './components/layout/NavBar';
 import Footer from './components/layout/Footer';
 import AOS from 'aos';
@@ -37,10 +39,6 @@ function App() {
       div.style.backdropFilter = `blur(12px)`;
     });
 
-    /*document.querySelectorAll('.genre').forEach(div => {
-      div.style.backgroundColor = `#045e8b`;
-    });*/
-
   } else {
     document.body.style.backgroundImage = 
       `linear-gradient(
@@ -57,9 +55,6 @@ function App() {
       div.style.backdropFilter = `blur(8px)`;
     });
 
-    /*document.querySelectorAll('.genre').forEach(div => {
-      div.style.backgroundColor = `#4c0053`;
-    });*/
   }
 }, [theme]);
 
@@ -73,9 +68,11 @@ function App() {
           <Route path="/books-recommendations" element={<BookSearchingPage/>} />
           <Route path="/books-recommendations/results" element={<BookResultsPage/>} />
           <Route path="/books-recommendations/results/book-info" element={<BookInfoPage/>} />
+          <Route path="/books-history" element={<BookHistoryPage/>} />
           <Route path="/movies-recommendations" element={<MovieSearchingPage/>} />
           <Route path="/movies-recommendations/results" element={<MovieResultsPage/>} />
           <Route path="/movies-recommendations/results/movie-info" element={<MovieInfoPage/>} />
+          <Route path="/movies-history" element={<MovieHistoryPage/>} />
         </Routes>
         <Footer />
       </Router>

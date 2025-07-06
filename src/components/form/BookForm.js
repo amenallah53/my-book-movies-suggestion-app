@@ -16,7 +16,7 @@ function BookForm() {
   const {theme} = useContext(ThemeContext)
   //state variables
   const navigate = useNavigate();
-  const [listGenre, setListGenre] = useState(genres);
+  const [listGenre, setListGenre] = useState([]);
   const [language,setLanguage] = useState('');
   const [authors,setAuthors] = useState('');
   const [fromYear,setFromYear] = useState('');
@@ -26,46 +26,10 @@ function BookForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.querySelectorAll('.genre').forEach(div => {
-        div.style.backgroundColor = `#1874d2`;
+    setListGenre(structuredClone(genres));
+  }, []);
 
-        // Add hover effect
-        div.onmouseenter = () => {
-          div.style.backgroundColor = `#0d3f73`;
-        };
-        div.onmouseleave = () => {
-          // Only revert to base color if not clicked
-          if (!div.classList.contains('genre-clicked')) {
-            div.style.backgroundColor = `#1874d2`;
-          }
-        };
-      });
-
-      document.querySelectorAll('.genre-clicked').forEach(div => {
-        div.style.backgroundColor = `#0d3f73`;
-      });
-
-    } else {
-      document.querySelectorAll('.genre').forEach(div => {
-        div.style.backgroundColor = `#bb6cf1`;
-
-        // Add hover effect
-        div.onmouseenter = () => {
-          div.style.backgroundColor = `#692e9b`;
-        };
-        div.onmouseleave = () => {
-          if (!div.classList.contains('genre-clicked')) {
-            div.style.backgroundColor = `#bb6cf1`;
-          }
-        };
-      });
-
-      document.querySelectorAll('.genre-clicked').forEach(div => {
-        div.style.backgroundColor = `#692e9b`;
-      });
-    }
-  }, [theme, listGenre]);
+  const genreClassName = 'genre-' + theme
 
 
   /* arrow function */
@@ -92,7 +56,7 @@ function BookForm() {
       <FormLabel className="labelClass" sx={{fontSize: '40px',color: 'white',fontWeight: 500}}>Genre</FormLabel>
       <div className="genre-options">
         {listGenre.map((element, index) => (                                                  /*() => handleGenreClick(index)*/
-          <div key={index} className={element.clicked ? "genre-clicked" : "genre"} onClick={function(){ handleGenreClick(index)}}>
+          <div key={index} className={element.clicked ? genreClassName+"-clicked" : genreClassName} onClick={function(){ handleGenreClick(index)}}>
             {element.genre}
           </div>
         ))}
@@ -133,7 +97,19 @@ function BookForm() {
       <FormLabel className="labelClass" sx={{fontSize: '40px',color: 'white',fontWeight: 500}}>Book length</FormLabel>
       <RowRadioButtonsGroup isLoading={isLoading} value={bookLength} onChange={setBookLength}/>
       <Textarea disabled={isLoading} size="lg" name="Outlined" onChange={(e) => setExtraDescription(e.target.value)} placeholder="Add other more description for more specification..." variant="outlined" minRows = {3} />
-      <Button type="submit" sx={{width:"300px" }} size="lg" loading={isLoading} endDecorator={<KeyboardArrowRight />} >
+      <Button
+        type="submit"
+        sx={{
+          width: "300px",
+          background: theme === 'light' ? '#1874d2' : '#bb6cf1',
+          '&:hover': {
+            backgroundColor: theme === 'light' ? '#0d3f73' : '#692e9b',
+          },
+        }}
+        size="lg"
+        loading={isLoading}
+        endDecorator={<KeyboardArrowRight />}
+      >
         Get Recommendations
       </Button>
       
